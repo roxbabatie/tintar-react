@@ -8,7 +8,22 @@ var AppComponent = React.createClass({
 
   render: function () {
     return (
-     <div>Hello</div>
+      <div className="container">
+        <div className="outer">
+          <div className="left-line">
+          </div>
+          <div className="right-line">
+          </div>
+          <div className="top-line">
+          </div>
+          <div className="bottom-line">
+          </div>
+          <div className="middle">
+            <div className="inner">
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 });
