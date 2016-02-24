@@ -6,19 +6,42 @@ import Point from './Point';
 
 var Board = React.createClass ({
   getInitialState: function() {
-    var board = [];
-    var whitePieces = [];
-    var blackPieces = [];
+    //var pieces = [];
+    var board = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
     return {
       board: board,
-      whitePieces: whitePieces,
-      blackPieces: blackPieces
+      red: 0,
+      green: 1,
+      player: 0,
+      //pieces: pieces
     }
+  },
+
+  placePiece: function(index) {
+
+      if (this.state.board[index] === -1) {
+        console.log("index: ", index);
+        console.log("player: ", this.state.player);
+        if ((this.state.player == 0) && (this.state.red < 9)) {
+          this.state.player = 1;
+          this.state.board[index] = 0;
+          this.state.red += 1;
+        } else if ((this.state.player == 1) && (this.state.green < 9)) {
+          this.state.player = 0;
+          this.state.board[index] = 1;
+          this.state.black += 1;
+        }
+        this.forceUpdate();
+
+      }
+
+
+
   },
   startingPos: function(index) {
     return Math.floor(index/8)*8
 
-},
+  },
   topPosition: function (index, width) {
     if(index < 3) {
       return 0;
@@ -60,7 +83,14 @@ var Board = React.createClass ({
         };
 
       }
-      points.push(<Point key = {i} style = {style} />);
+      if (this.state.board[i] === 0) {
+        style.background = 'red';
+      } else if (this.state.board[i] === 1) {
+        style.background = 'green';
+      } else {
+        style.background = 'black';
+      }
+      points.push(<Point key = {i} style = {style} onClick={this.placePiece} index={i}/>);
     }
     return (
       <div>
