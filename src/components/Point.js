@@ -6,7 +6,7 @@ import React from 'react';
 var Point = React.createClass ({
   render: function(){
     return (
-      <div className="point"></div>
+      <div className="point" style={this.props.style}></div>
     )
   }
 });
