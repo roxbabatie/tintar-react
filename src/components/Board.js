@@ -11,7 +11,7 @@ var Board = React.createClass ({
     return {
       board: board,
       red: 0,
-      green: 1,
+      green: 0,
       player: 0,
       //pieces: pieces
     }
@@ -29,7 +29,7 @@ var Board = React.createClass ({
         } else if ((this.state.player == 1) && (this.state.green < 9)) {
           this.state.player = 0;
           this.state.board[index] = 1;
-          this.state.black += 1;
+          this.state.green += 1;
         }
         this.forceUpdate();
 
@@ -67,19 +67,19 @@ var Board = React.createClass ({
     for (var i=0; i < 24; i++){
       if(i<8) {
         style = {
-          top: this.topPosition(i - this.startingPos(i), 600) + 87,
-          left: this.leftPosition(i - this.startingPos(i), 600) + 385
+          top: this.topPosition(i - this.startingPos(i), 600)-20,
+          left: this.leftPosition(i - this.startingPos(i), 600)-17
         };
       }else if (i >= 8 && i< 16) {
         style = {
-          top: this.topPosition(i - this.startingPos(i), 400) + 187,
-          left: this.leftPosition(i - this.startingPos(i), 400) + 485
+          top: this.topPosition(i - this.startingPos(i), 400)+81,
+          left: this.leftPosition(i - this.startingPos(i), 400)+82
         };
       }
       else{
         style = {
-          top: this.topPosition(i - this.startingPos(i), 200) + 290,
-          left: this.leftPosition(i - this.startingPos(i), 200)+ 590
+          top: this.topPosition(i - this.startingPos(i), 200)+186,
+          left: this.leftPosition(i - this.startingPos(i), 200)+183
         };
 
       }
@@ -90,16 +90,16 @@ var Board = React.createClass ({
       } else {
         style.background = 'black';
       }
-      points.push(<Point key = {i} style = {style} onClick={this.placePiece} index={i}/>);
+      points.push(<Point style = {style} onClick={this.placePiece} index={i}/>);
     }
     return (
+  <div>
       <div>
-
-        <div className="left-line"></div>
-        <div className="right-line"></div>
-        <div className="top-line"></div>
-        <div className="bottom-line"></div>
         <div className="outer">
+          <div className="left-line"></div>
+          <div className="right-line"></div>
+          <div className="top-line"></div>
+          <div className="bottom-line"></div>
           <div className="middle">
             <div className="inner">
               {points}
@@ -108,6 +108,12 @@ var Board = React.createClass ({
           </div>
         </div>
       </div>
+    <div>
+      <p>Red: {this.state.red}</p>
+      <p>Green: {this.state.green}</p>
+      <div>Next: {this.state.player === 0 ? 'Red ' : 'Green '} player</div>
+    </div>
+    </div>
     );
   }
 });
