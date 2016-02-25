@@ -4,12 +4,23 @@ body {
 .container {
   border: 1px solid black;
   margin: 30px auto;
+  width: 1200px;
+  height: 710px;
+
+}
+.board {
+  border: 1px solid black;
+  margin: 30px 30px;
   width: 650px;
   height: 650px;
   background-image: url('http://i00.i.aliimg.com/img/pb/365/978/467/467978365_038.JPG');
+  float: left;
 }
+.score {
+  margin: 20px 50px;
+  float: left;
 
-
+}
 .outer {
   width: 600px;
   height: 600px;
@@ -39,7 +50,7 @@ body {
   border: 2px solid black;
   position: absolute;
   width: 196px;
-  top: 294px;
+  top: 298px;
   left: 0;
   box-sizing: border-box;
 
@@ -50,7 +61,7 @@ body {
   position: absolute;
   width: 196px;
   box-sizing: border-box;
-  top: 294px;
+  top: 298px;
   left:396px;
 }
 .top-line {
@@ -59,7 +70,7 @@ body {
   height: 204px;
   box-sizing: border-box;
   top: 0;
-  left: 296px;
+  left: 294px;
 }
 .bottom-line {
   border: 2px solid black;
@@ -67,7 +78,7 @@ body {
   height: 188px;
   box-sizing: border-box;
   top: 404px;
-  left: 296px;
+  left: 294px;
 }
 .white-piece {
   background-color: black;
@@ -80,9 +91,9 @@ body {
 .point {
   background: black;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   position: absolute;
-  /*transform: translate(-50%, -50%);*/
+  transform: translate(-50%, -50%);
 
 }

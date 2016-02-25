@@ -60,6 +60,9 @@ var Board = React.createClass ({
       return width;
     }
   },
+  resetGame: function() {
+    this.setState(this.getInitialState);
+  },
   render: function(){
     var points = [];
     var style = {};
@@ -67,19 +70,19 @@ var Board = React.createClass ({
     for (var i=0; i < 24; i++){
       if(i<8) {
         style = {
-          top: this.topPosition(i - this.startingPos(i), 600)-20,
-          left: this.leftPosition(i - this.startingPos(i), 600)-17
+          top: this.topPosition(i - this.startingPos(i), 600)-2 ,
+          left: this.leftPosition(i - this.startingPos(i), 600)-5
         };
       }else if (i >= 8 && i< 16) {
         style = {
-          top: this.topPosition(i - this.startingPos(i), 400)+81,
-          left: this.leftPosition(i - this.startingPos(i), 400)+82
+          top: this.topPosition(i - this.startingPos(i), 400)+100,
+          left: this.leftPosition(i - this.startingPos(i), 400)+96
         };
       }
       else{
         style = {
-          top: this.topPosition(i - this.startingPos(i), 200)+186,
-          left: this.leftPosition(i - this.startingPos(i), 200)+183
+          top: this.topPosition(i - this.startingPos(i), 200)+203,
+          left: this.leftPosition(i - this.startingPos(i), 200)+197
         };
 
       }
@@ -94,7 +97,7 @@ var Board = React.createClass ({
     }
     return (
   <div>
-      <div>
+    <div className="board">
         <div className="outer">
           <div className="left-line"></div>
           <div className="right-line"></div>
@@ -107,11 +110,14 @@ var Board = React.createClass ({
 
           </div>
         </div>
-      </div>
+    </div>
     <div>
-      <p>Red: {this.state.red}</p>
-      <p>Green: {this.state.green}</p>
-      <div>Next: {this.state.player === 0 ? 'Red ' : 'Green '} player</div>
+      <button onClick={this.resetGame}>Reset game</button>
+    </div>
+    <div className="score">
+      <p>Red pieces: {this.state.red}</p>
+      <p>Green pieces: {this.state.green}</p>
+      <div>Next player: {this.state.player === 0 ? 'Red ' : 'Green '}</div>
     </div>
     </div>
     );
