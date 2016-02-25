@@ -6,23 +6,18 @@ import Point from './Point';
 
 var Board = React.createClass ({
   getInitialState: function() {
-    //var pieces = [];
     var board = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
     return {
       board: board,
       white: 9,
       black: 9,
       player: 0,
-      started: false,
-      //pieces: pieces
+      started: false
     }
   },
 
   placePiece: function(index) {
-
       if (this.state.board[index] === -1) {
-        console.log("index: ", index);
-        console.log("player: ", this.state.player);
         if ((this.state.player == 0) && (this.state.white <= 9) && (this.state.white > 0)) {
           this.state.player = 1;
           this.state.board[index] = 0;
@@ -33,16 +28,13 @@ var Board = React.createClass ({
           this.state.black -= 1;
         }
         this.forceUpdate();
-
       }
-
-
-
   },
+
   startingPos: function(index) {
     return Math.floor(index/8)*8
-
   },
+
   topPosition: function (index, width) {
     if(index < 3) {
       return 0;
@@ -52,6 +44,7 @@ var Board = React.createClass ({
       return width;
     }
   },
+
   leftPosition: function (index, width) {
     if(index == 0 || index > 5) {
       return 0;
@@ -61,27 +54,28 @@ var Board = React.createClass ({
       return width;
     }
   },
+
   resetGame: function() {
     this.setState(this.getInitialState);
     this.setState({started: 'true'});
   },
+
   startGame: function() {
     this.setState({started: true})
-
   },
-  render: function(){
 
+  render: function(){
     if (this.state.started == 0) {
       return(
         <div>
-        <div className="start-game">
-                <button className="start" onClick={this.startGame}>Start Game</button>
+          <div className="start-game">
+            <button className="start" onClick={this.startGame}>Start Game</button>
+          </div>
         </div>
-          </div>)
-    }
+      );
+    };
     var points = [];
     var style = {};
-
     for (var i=0; i < 24; i++){
       if(i<8) {
         style = {
@@ -99,7 +93,6 @@ var Board = React.createClass ({
           top: this.topPosition(i - this.startingPos(i), 200)+203,
           left: this.leftPosition(i - this.startingPos(i), 200)+197
         };
-
       }
       if (this.state.board[i] === 0) {
         style.background = '#F7EECD';
@@ -109,7 +102,7 @@ var Board = React.createClass ({
         style.webkitBoxShadow= "3px 3px 5px 6px #ccc" ;
         style.boxShadow = "2px 2px 2px 2px #ccc";
       } else if (this.state.board[i] === 1) {
-        style.background = '	#1F1D20';
+        style.background = '#1F1D20';
         style.width= 50;
         style.height= 50;
         style.mozBoxShadow="3px 3px 5px 6px #ccc";
@@ -120,36 +113,33 @@ var Board = React.createClass ({
       }
       points.push(<Point style = {style} onClick={this.placePiece} index={i}/>);
     }
-    var className = this.state.started ? 'container' : 'start-game';
-
     return (
-  <div>
-    <div className="board">
-        <div className="outer">
-          <div className="left-line"></div>
-          <div className="right-line"></div>
-          <div className="top-line"></div>
-          <div className="bottom-line"></div>
-          <div className="middle">
-            <div className="inner">
-              {points}
+      <div>
+        <div className="board">
+          <div className="outer">
+            <div className="left-line"></div>
+            <div className="right-line"></div>
+            <div className="top-line"></div>
+            <div className="bottom-line"></div>
+            <div className="middle">
+              <div className="inner">
+                {points}
+              </div>
             </div>
-
+            </div>
           </div>
+        <div>
+          <button className="reset-btn" onClick={this.resetGame}>Reset game</button>
         </div>
-    </div>
-    <div>
-      <button className="reset-btn" onClick={this.resetGame}>Reset game</button>
-    </div>
-    <div className="game-status">
-      <div className="next-player">
-        <div>Next player: {this.state.player === 0 ? 'White ' : 'Black '}</div>
-      </div>
-      <div className="pieces-left">
-        <p>White: {this.state.white}</p>
-        <p>Black: {this.state.black}</p>
-      </div>
-    </div>
+         <div className="game-status">
+           <div className="next-player">
+             <div>Next player: {this.state.player === 0 ? 'White ' : 'Black '}</div>
+           </div>
+            <div className="pieces-left">
+              <p>White: {this.state.white}</p>
+              <p>Black: {this.state.black}</p>
+            </div>
+          </div>
     </div>
     );
   }
