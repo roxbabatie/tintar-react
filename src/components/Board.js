@@ -6,7 +6,10 @@ import Point from './Point';
 
 var Board = React.createClass ({
   getInitialState: function() {
-    var board = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
+    var board = new Array(24);
+    for (var i=0; i<24; i++) {
+      board[i] = -1;
+    }
     return {
       board: board,
       white: 9,
