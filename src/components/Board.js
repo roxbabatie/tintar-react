@@ -10,9 +10,10 @@ var Board = React.createClass ({
     var board = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
     return {
       board: board,
-      red: 0,
-      green: 0,
+      white: 9,
+      black: 9,
       player: 0,
+      started: false,
       //pieces: pieces
     }
   },
@@ -22,14 +23,14 @@ var Board = React.createClass ({
       if (this.state.board[index] === -1) {
         console.log("index: ", index);
         console.log("player: ", this.state.player);
-        if ((this.state.player == 0) && (this.state.red < 9)) {
+        if ((this.state.player == 0) && (this.state.white <= 9) && (this.state.white > 0)) {
           this.state.player = 1;
           this.state.board[index] = 0;
-          this.state.red += 1;
-        } else if ((this.state.player == 1) && (this.state.green < 9)) {
+          this.state.white -= 1;
+        } else if ((this.state.player == 1) && (this.state.black <= 9) && (this.state.black > 0)) {
           this.state.player = 0;
           this.state.board[index] = 1;
-          this.state.green += 1;
+          this.state.black -= 1;
         }
         this.forceUpdate();
 
@@ -62,8 +63,22 @@ var Board = React.createClass ({
   },
   resetGame: function() {
     this.setState(this.getInitialState);
+    this.setState({started: 'true'});
+  },
+  startGame: function() {
+    this.setState({started: true})
+
   },
   render: function(){
+
+    if (this.state.started == 0) {
+      return(
+        <div>
+        <div className="start-game">
+                <button className="start" onClick={this.startGame}>Start Game</button>
+        </div>
+          </div>)
+    }
     var points = [];
     var style = {};
 
@@ -87,14 +102,26 @@ var Board = React.createClass ({
 
       }
       if (this.state.board[i] === 0) {
-        style.background = 'red';
+        style.background = '#F7EECD';
+        style.width= 50;
+        style.height= 50;
+        style.mozBoxShadow="3px 3px 5px 6px #ccc";
+        style.webkitBoxShadow= "3px 3px 5px 6px #ccc" ;
+        style.boxShadow = "2px 2px 2px 2px #ccc";
       } else if (this.state.board[i] === 1) {
-        style.background = 'green';
+        style.background = '	#1F1D20';
+        style.width= 50;
+        style.height= 50;
+        style.mozBoxShadow="3px 3px 5px 6px #ccc";
+        style.webkitBoxShadow= "3px 3px 5px 6px #ccc";
+        style.boxShadow = "2px 2px 2px 2px #ccc";
       } else {
         style.background = 'black';
       }
       points.push(<Point style = {style} onClick={this.placePiece} index={i}/>);
     }
+    var className = this.state.started ? 'container' : 'start-game';
+
     return (
   <div>
     <div className="board">
@@ -112,12 +139,16 @@ var Board = React.createClass ({
         </div>
     </div>
     <div>
-      <button onClick={this.resetGame}>Reset game</button>
+      <button className="reset-btn" onClick={this.resetGame}>Reset game</button>
     </div>
-    <div className="score">
-      <p>Red pieces: {this.state.red}</p>
-      <p>Green pieces: {this.state.green}</p>
-      <div>Next player: {this.state.player === 0 ? 'Red ' : 'Green '}</div>
+    <div className="game-status">
+      <div className="next-player">
+        <div>Next player: {this.state.player === 0 ? 'White ' : 'Black '}</div>
+      </div>
+      <div className="pieces-left">
+        <p>White: {this.state.white}</p>
+        <p>Black: {this.state.black}</p>
+      </div>
     </div>
     </div>
     );
