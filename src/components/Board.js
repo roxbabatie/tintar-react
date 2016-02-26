@@ -1,44 +1,54 @@
 require('normalize.css');
 require('styles/App.css');
 
-import React from 'react';
+import React, { Component } from 'react';
 import Point from './Point';
+import Piece from './Piece';
 
-var Board = React.createClass ({
-  getInitialState: function() {
-    var board = new Array(24);
-    for (var i=0; i<24; i++) {
-      board[i] = -1;
-    }
-    return {
-      board: board,
-      white: 9,
-      black: 9,
-      player: 0,
-      started: false
-    }
-  },
 
-  placePiece: function(index) {
+class Board extends Component{
+     constructor(props) {
+       super(props);
+       const board = new Array(24);
+       for (let i=0; i<24; i++) {
+         board[i] = -1;
+       }
+       const pieces = new Array(18);
+       for (let i=0; i<24; i++) {
+         pieces[i] = -1;
+       }
+       this.state = {
+         board: board,
+         pieces: pieces,
+         white: 9,
+         black: 9,
+         player: 0,
+         started: false
+       };
+     }
+
+  placePiece(index) {
       if (this.state.board[index] === -1) {
         if ((this.state.player == 0) && (this.state.white <= 9) && (this.state.white > 0)) {
           this.state.player = 1;
           this.state.board[index] = 0;
+          this.state.pieces[index] = 0;
           this.state.white -= 1;
         } else if ((this.state.player == 1) && (this.state.black <= 9) && (this.state.black > 0)) {
           this.state.player = 0;
           this.state.board[index] = 1;
+          this.state.pieces[index] = 1;
           this.state.black -= 1;
         }
         this.forceUpdate();
       }
-  },
+  }
 
-  startingPos: function(index) {
+  startingPos(index) {
     return Math.floor(index/8)*8
-  },
+  }
 
-  topPosition: function (index, width) {
+  topPosition(index, width) {
     if(index < 3) {
       return 0;
     } else if (index == 3 || index == 7) {
@@ -46,9 +56,9 @@ var Board = React.createClass ({
     } else {
       return width;
     }
-  },
+  }
 
-  leftPosition: function (index, width) {
+  leftPosition(index, width) {
     if(index == 0 || index > 5) {
       return 0;
     } else if (index == 1 || index == 5) {
@@ -56,30 +66,48 @@ var Board = React.createClass ({
     } else {
       return width;
     }
-  },
+  }
 
-  resetGame: function() {
-    this.setState(this.getInitialState);
-    this.setState({started: 'true'});
-  },
+  resetGame() {
+    const board = new Array(24);
+    for (let i=0; i<24; i++) {
+      board[i] = -1;
+    }
+    const pieces = new Array(18);
+    for (let i=0; i<24; i++) {
+      pieces[i] = -1;
+    }
+    this.state = {
+      board: board,
+      pieces: pieces,
+      white: 9,
+      black: 9,
+      player: 0,
+      started: true
+    };
+    this.forceUpdate();
+  }
 
-  startGame: function() {
-    this.setState({started: true})
-  },
+  startGame() {
+     this.setState({started: true});
+  }
 
-  render: function(){
-    if (this.state.started == 0) {
+  render(){
+    if (this.state.started == false) {
       return(
         <div>
           <div className="start-game">
-            <button className="start" onClick={this.startGame}>Start Game</button>
+            <button className="start" onClick={this.startGame.bind(this)}>Start Game</button>
           </div>
         </div>
       );
     };
-    var points = [];
-    var style = {};
-    for (var i=0; i < 24; i++){
+
+    const points = [];
+    //var pieces = [];
+    let style = {};
+    //var piecesStyle = {left: style.left, top: style.top};
+    for (let i=0; i < 24; i++){
       if(i<8) {
         style = {
           top: this.topPosition(i - this.startingPos(i), 600)-2 ,
@@ -114,9 +142,13 @@ var Board = React.createClass ({
       } else {
         style.background = 'black';
       }
-      points.push(<Point style = {style} onClick={this.placePiece} index={i}/>);
+
+      points.push(<Point style = {style} onClick={this.placePiece.bind(this)} index={i}/>);
+
     }
+
     return (
+
       <div>
         <div className="board">
           <div className="outer">
@@ -132,7 +164,7 @@ var Board = React.createClass ({
             </div>
           </div>
         <div>
-          <button className="reset-btn" onClick={this.resetGame}>Reset game</button>
+          <button className="reset-btn" onClick={this.resetGame.bind(this)}>Reset game</button>
         </div>
          <div className="game-status">
            <div className="next-player">
@@ -144,8 +176,9 @@ var Board = React.createClass ({
             </div>
           </div>
     </div>
+
     );
   }
-});
+};
 
 export default Board;
